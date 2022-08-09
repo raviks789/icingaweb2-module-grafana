@@ -267,7 +267,8 @@ trait IcingaDbGrapher
                     'panelid' => $this->panelId,
                     'timerange' => urlencode($this->timerange),
                     'timerangeto' => urlencode($this->timerangeto),
-                    'cachetime' => $this->cacheTime]
+                    'cachetime' => $this->cacheTime
+                    ]
                 );
             } else {
                 $this->pngUrl = Url::frompath(
@@ -342,7 +343,8 @@ trait IcingaDbGrapher
      */
     public function getPreviewHtml(Model $object, $report = false)
     {
-        $this->cacheTime = $object->state->next_check - $object->state->last_update;
+        $this->object = $object;
+        $this->cacheTime = round($object->state->next_check - $object->state->last_update);
 
         if ($object instanceof Host) {
             $serviceName = $object->checkcommand_name;
