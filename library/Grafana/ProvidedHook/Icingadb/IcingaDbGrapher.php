@@ -263,7 +263,7 @@ trait IcingaDbGrapher
                     'grafana/icingadbimg',
                     [
                     'host' => rawurlencode($hostName),
-                    'service' => rawurlencode($serviceName),
+                    'service' => $serviceName,
                     'panelid' => $this->panelId,
                     'timerange' => urlencode($this->timerange),
                     'timerangeto' => urlencode($this->timerangeto),
@@ -373,6 +373,15 @@ trait IcingaDbGrapher
         }
 
         $customvars = $this->getDb()->fetchPairs($varsFlat->assembleSelect());
+
+        // enable_perfdata = true ?  || disablevar == true
+        if (!$this->object->perfdata_enabled
+            || (( isset($customvars[$this->custvardisable])
+                && json_decode(strtolower($customvars[$this->custvardisable])) !== false))
+            ) {
+                $return_html = new HtmlDocument();
+                return $return_html;
+            }
 
         if (array_key_exists($this->custvarconfig, $customvars)
             && !empty($customvars[$this->custvarconfig])) {
