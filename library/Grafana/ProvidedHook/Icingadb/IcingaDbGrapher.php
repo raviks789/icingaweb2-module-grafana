@@ -264,7 +264,7 @@ trait IcingaDbGrapher
                     'grafana/icingadbimg',
                     [
                     'host' => rawurlencode($hostName),
-                    'service' => rawurlencode($serviceName),
+                    'service' => $serviceName,
                     'panelid' => $this->panelId,
                     'timerange' => urlencode($this->timerange),
                     'timerangeto' => urlencode($this->timerangeto),
